@@ -14,6 +14,7 @@ namespace CodeSnippet1
 	{
 		typedef U Result;
 	};
+
 	//usage:
 	template<class T, bool isPolymorphic>
 	struct Container
@@ -22,4 +23,24 @@ namespace CodeSnippet1
 		typedef typename Select<isPolymorphic, T*, T>::Result ValueType;
 		std::vector<ValueType> container;
 	};
+}
+
+namespace CodeSnippet2
+{
+	//将常整数映射为类型型别
+	template<int v>
+	struct Int2Type
+	{
+		enum{ value = v };
+	};
+
+	//一般而言，符合以下两个条件便可使用Int2Type
+	//（1）根据某个编译期间常数调用不同的函数
+	//（2）有必要在编译期实施dispatch
+
+	//usage:
+	template<class T>
+	void fcn(T *p, Int2Type<true>){}
+	template<class T>
+	void fcn(T *p, Int2Type<false>){}
 }
