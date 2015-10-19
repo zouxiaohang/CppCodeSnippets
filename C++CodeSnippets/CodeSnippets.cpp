@@ -156,11 +156,48 @@ namespace CodeSnippet6
 		ret.emplace_back(msg.substr(prev, msg.size() - prev));
 		return ret;
 	}
-
 	//usage:
 	void fcn()
 	{
 		std::string ss = " 1  1 ";
 		auto v = CodeSnippet6::split(ss);//['', '1', '', '1', '']
+	}
+}
+
+//*******************************************************************************
+#include <chrono>
+namespace CodeSnippet7
+{
+	//测试程序运行时间
+	template<class Clock = std::chrono::steady_clock>
+	class TimeProfiler
+	{
+	public:
+		typedef typename Clock::time_point TimePoint;
+		typedef std::chrono::duration<double, std::ratio<1, 1>> DurationTime;//单位秒
+	private:
+		TimePoint startTime;
+		TimePoint finishTime;
+		DurationTime durationTime;
+	public:
+		TimeProfiler(){}
+		void start(){ startTime = Clock::now(); }
+		void finish()
+		{
+			finishTime = Clock::now();
+			durationTime = std::chrono::duration_cast<DurationTime>(finishTime - startTime);
+		}
+
+		double seconds(){ return durationTime.count(); }
+	};
+	//usage:
+	void fcn()
+	{
+		int i = 1000;
+		TimeProfiler<> p;
+		p.start();
+		while (i--){}
+		p.finish();
+		auto time = p.seconds();
 	}
 }
