@@ -6,6 +6,8 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <sstream>
+#include <iterator>
 
 //*******************************************************************************
 namespace CodeSnippet1
@@ -90,7 +92,7 @@ namespace CodeSnippet3
 		FindClose(hFind);
 	}
 	//usage:
-	int fcn()
+	void fcn()
 	{
 		std::vector<std::string> v;
 		RecursiveTraverseDir("C:\\Users\\zou\\Documents\\Visual Studio 2013\\Projects\\MyRayTracing\\MyRayTracing", v);
@@ -133,5 +135,33 @@ namespace CodeSnippet5
 	{
 		std::wstring_convert<std::codecvt_utf8<wchar_t>> myconv;
 		return myconv.to_bytes(str);
+	}
+}
+
+//*******************************************************************************
+namespace CodeSnippet6
+{
+	//根据分隔符来分割字符串, 行为和python中的split一致
+	std::vector<std::string> split(const std::string& msg, const std::string& delimiter = " ")
+	{
+		std::vector<std::string> ret;
+		size_t prev = 0;
+		size_t step = delimiter.size();
+		auto curr = msg.find(delimiter);
+		while (curr != std::string::npos)
+		{
+			ret.emplace_back(msg.substr(prev, curr - prev));
+			prev = curr + step;
+			curr = msg.find(delimiter, prev);
+		}
+		ret.emplace_back(msg.substr(prev, msg.size() - prev));
+		return ret;
+	}
+
+	//usage:
+	void fcn()
+	{
+		std::string ss = " 1  1 ";
+		auto v = CodeSnippet6::split(ss);//['', '1', '', '1', '']
 	}
 }
