@@ -145,8 +145,7 @@ namespace CodeSnippet6
 	std::vector<std::string> split(const std::string& msg, const std::string& delimiter = " ")
 	{
 		std::vector<std::string> ret;
-		size_t prev = 0;
-		size_t step = delimiter.size();
+		size_t prev = 0, step = delimiter.size();
 		auto curr = msg.find(delimiter);
 		while (curr != std::string::npos)
 		{
