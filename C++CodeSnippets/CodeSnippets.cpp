@@ -2,7 +2,9 @@
 #include <Windows.h>
 
 //c++ std header files
+#include <algorithm>
 #include <fstream>
+#include <sstream>
 #include <iostream>
 #include <string>
 #include <vector>
@@ -102,7 +104,7 @@ namespace CodeSnippet3
 //*******************************************************************************
 namespace CodeSnippet4
 {
-	//c++ 读取按行读取文件内容
+	//c++ 按行读取文件内容
 	void readFileByLine(const std::string& file)
 	{
 		std::ifstream ifs(file);
@@ -114,6 +116,17 @@ namespace CodeSnippet4
 		}
 
 		ifs.close();
+	}
+	//c++ 一次性读取整个文件的内容
+	std::string readFile(const std::string& file)
+	{
+		std::ifstream ifs(file);
+		std::stringstream ss;
+		ss << ifs.rdbuf();
+		ifs.close();
+
+		std::string content = ss.str();
+		return content;
 	}
 }
 
@@ -200,4 +213,11 @@ namespace CodeSnippet7
 		p.finish();
 		auto time = p.seconds();
 	}
+}
+
+int main()
+{
+	auto s = CodeSnippet4::readFile("D:\\Projects\\C++CodeSnippets\\C++CodeSnippets\\CodeSnippets.cpp");
+	std::cout << s;
+	system("pause");
 }
